@@ -1,23 +1,13 @@
 <template>
-  <div class="graph-wrapper" :id="idArray">
+  <div class="graph-wrapper">
     <svg />
-    <div class="legend-wrapper">
-      <template v-for="el in data">
-        <i :key="el.key"></i>
-        <span :key="el.key"></span>
-      </template>
-    </div>
   </div>
 </template>
 
 <script>
 import * as d3 from "d3";
 export default {
-  props: {
-    data: Array,
-    idArray: String,
-    colors: String
-  },
+  props: ["data"],
   mounted() {
     const width = 300,
       height = 200;
@@ -55,7 +45,7 @@ export default {
       .curve(d3.curveMonotoneX);
 
     const graph = d3
-      .select(`#${this.idArray} svg`)
+      .select(`.graph-wrapper svg`)
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom);
 
@@ -88,7 +78,7 @@ export default {
       .attr("d", line(this.data))
       .attr("transform", `translate(${margin.left}, ${margin.bottom})`)
       .attr("fill", "none")
-      .attr("stroke", this.colors)
+      .attr("stroke","green")
       .attr("stroke-width", "3px");
 
     // end of mounted
@@ -96,5 +86,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
