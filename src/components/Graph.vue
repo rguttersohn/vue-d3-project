@@ -65,13 +65,19 @@ export default {
             .tickSizeOuter(0)
             .ticks(5)
         );
+
+      // add grouping for the path
+      graph
+        .append("g")
+        .attr("class", "graph")
+        .append("path")
+        .attr("transform", `translate(${margin.left}, ${margin.bottom})`)
+        .attr("fill", "none")
+        .attr("stroke", "green")
+        .attr("stroke-width", "3px");
     },
 
     drawLineChart(width, height, margin) {
-      d3.select("svg")
-        .selectAll(".graph path")
-        .remove();
-
       const line = d3
         .line()
         .x(d => {
@@ -83,15 +89,10 @@ export default {
         .curve(d3.curveMonotoneX);
 
       let graph = d3
-        .select(".graph-wrapper svg")
-        .append("g")
-        .attr("class", "graph")
-        .append("path")
-        .attr("d", line(this.dataset[0]))
-        .attr("transform", `translate(${margin.left}, ${margin.bottom})`)
-        .attr("fill", "none")
-        .attr("stroke", "green")
-        .attr("stroke-width", "3px");
+        .select(".graph path")
+        .transition()
+        .duration(300)
+        .attr("d", line(this.dataset[0]));
     }
   },
   mounted() {
