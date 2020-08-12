@@ -2,7 +2,7 @@
   <div id="app">
     <button @click="clickEventOne">Graph One</button>
     <button @click="clickEventTwo">Graph Two</button>
-    <Graph :dataset="activeDataset" :initial-graph="datasetOne"/>
+    <Graph :dataset="activeDataset" :initial-graph="datasetOne" />
   </div>
 </template>
 
@@ -32,13 +32,12 @@ export default {
   },
   methods: {
     clickEventOne() {
-      this.activeDataset.pop()
+      this.activeDataset.pop();
       this.activeDataset.push(this.datasetOne);
-
     },
-    clickEventTwo(){
-      this.activeDataset.pop()
-      this.activeDataset.push(this.datasetTwo)
+    clickEventTwo() {
+      this.activeDataset.pop();
+      this.activeDataset.push(this.datasetTwo);
     }
   }
 };
@@ -62,7 +61,7 @@ export default {
   color: #2c3e50;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+button.active {
+  border-bottom: 1px solid #42b983;
 }
 </style>
