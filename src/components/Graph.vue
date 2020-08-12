@@ -7,10 +7,12 @@
 <script>
 import * as d3 from "d3";
 export default {
-  props: ["dataset"],
+  props: ["dataset", "initialGraph"],
   methods: {
     drawLineChart() {
-      d3.select('svg').selectAll('*').remove()
+      d3.select("svg")
+        .selectAll("*")
+        .remove();
       const width = 300,
         height = 200;
       const margin = { left: 50, right: 50, top: 50, bottom: 50 };
@@ -86,6 +88,10 @@ export default {
         .attr("stroke", "green")
         .attr("stroke-width", "3px");
     }
+  },
+  mounted() {
+    this.dataset.push(this.initialGraph)
+    this.drawLineChart();
   },
   watch: {
     dataset() {

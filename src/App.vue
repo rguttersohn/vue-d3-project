@@ -2,7 +2,7 @@
   <div id="app">
     <button @click="clickEventOne">Graph One</button>
     <button @click="clickEventTwo">Graph Two</button>
-    <Graph :dataset="activeDataset"/>
+    <Graph :dataset="activeDataset" :initial-graph="datasetOne"/>
   </div>
 </template>
 
