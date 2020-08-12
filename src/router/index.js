@@ -1,19 +1,20 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Graph from '@/components/Graph.vue';
+import Graph from "@/components/Graph.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/graph",
+    path: "/graph/:graphData",
     name: "graph",
-    component: Graph
-  },
+    component: Graph,
+    props:true
+  }
 ];
 
 const router = new VueRouter({
-  routes
+  routes,
 });
 
 export default router;

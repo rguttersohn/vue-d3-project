@@ -1,10 +1,8 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link :to="{name:'graph'}">Graph</router-link>
-    </div>
-    <router-view />
-    <Graph :data="data" />
+    <button @click="clickEventOne">Graph One</button>
+    <button @click="clickEventTwo">Graph Two</button>
+    <Graph :dataset="activeDataset"/>
   </div>
 </template>
 
@@ -16,13 +14,32 @@ export default {
   },
   data() {
     return {
-      data: [
+      counter: 0,
+      datasetOne: [
         { key: "key 1", value: 20 },
         { key: "key 2", value: 40 },
         { key: "key 3", value: 80 },
-        { key: "key 4", value: 10 }
-      ]
+        { key: "key 4", value: 120 }
+      ],
+      datasetTwo: [
+        { key: "key 1", value: 80 },
+        { key: "key 2", value: 40 },
+        { key: "key 3", value: 110 },
+        { key: "key 4", value: 130 }
+      ],
+      activeDataset: []
     };
+  },
+  methods: {
+    clickEventOne() {
+      this.activeDataset.pop()
+      this.activeDataset.push(this.datasetOne);
+
+    },
+    clickEventTwo(){
+      this.activeDataset.pop()
+      this.activeDataset.push(this.datasetTwo)
+    }
   }
 };
 </script>

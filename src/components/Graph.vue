@@ -7,81 +7,90 @@
 <script>
 import * as d3 from "d3";
 export default {
-  props: ["data"],
-  mounted() {
-    const width = 300,
-      height = 200;
-    const margin = { left: 50, right: 50, top: 50, bottom: 50 };
+  props: ["dataset"],
+  methods: {
+    drawLineChart() {
+      d3.select('svg').selectAll('*').remove()
+      const width = 300,
+        height = 200;
+      const margin = { left: 50, right: 50, top: 50, bottom: 50 };
 
-    const xScale = d3
-      .scaleBand()
-      .range([0, width])
-      .domain(
-        this.data.map(d => {
-          return d.key;
+      const xScale = d3
+        .scaleBand()
+        .range([0, width])
+        .domain(
+          this.dataset[0].map(d => {
+            return d.key;
+          })
+        );
+
+      const yScale = d3
+        .scaleLinear()
+        .rangeRound([height, 0])
+        .domain([
+          d3.min(this.dataset[0], d => {
+            return d.value;
+          }),
+          d3.max(this.dataset[0], d => {
+            return d.value;
+          })
+        ]);
+
+      const line = d3
+        .line()
+        .x(d => {
+          return xScale(d.key) + xScale.bandwidth() / 2;
         })
-      );
-
-    const yScale = d3
-      .scaleLinear()
-      .rangeRound([height, 0])
-      .domain([
-        d3.min(this.data, d => {
-          return d.value;
-        }),
-        d3.max(this.data, d => {
-          return d.value;
+        .y(d => {
+          return yScale(d.value);
         })
-      ]);
+        .curve(d3.curveMonotoneX);
 
-    const line = d3
-      .line()
-      .x(d => {
-        return xScale(d.key) + xScale.bandwidth() / 2;
-      })
-      .y(d => {
-        return yScale(d.value);
-      })
-      .curve(d3.curveMonotoneX);
+      const graph = d3
+        .select(`.graph-wrapper svg`)
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
 
-    const graph = d3
-      .select(`.graph-wrapper svg`)
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom);
+      graph
+        .append("g")
+        .attr(
+          "transform",
+          `translate(${margin.left},${height + margin.bottom})`
+        )
+        .attr("class", "x-axis")
+        .call(
+          d3
+            .axisBottom(xScale)
+            .tickSizeOuter(0)
+            .ticks(5)
+        );
 
-    graph
-      .append("g")
-      .attr("transform", `translate(${margin.left},${height + margin.bottom})`)
-      .attr("class", "x-axis")
-      .call(
-        d3
-          .axisBottom(xScale)
-          .tickSizeOuter(0)
-          .ticks(5)
-      );
+      graph
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`)
+        .attr("class", "y-axis")
+        .call(
+          d3
+            .axisLeft(yScale)
+            .tickSizeOuter(0)
+            .ticks(5)
+        );
 
-    graph
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`)
-      .attr("class", "y-axis")
-      .call(
-        d3
-          .axisLeft(yScale)
-          .tickSizeOuter(0)
-          .ticks(5)
-      );
-
-    graph
-      .append("g")
-      .attr("class", "graph")
-      .append("path")
-      .attr("d", line(this.data))
-      .attr("transform", `translate(${margin.left}, ${margin.bottom})`)
-      .attr("fill", "none")
-      .attr("stroke","green")
-      .attr("stroke-width", "3px");
-
-    // end of mounted
+      graph
+        .append("g")
+        .attr("class", "graph")
+        .append("path")
+        .attr("d", line(this.dataset[0]))
+        .attr("transform", `translate(${margin.left}, ${margin.bottom})`)
+        .attr("fill", "none")
+        .attr("stroke", "green")
+        .attr("stroke-width", "3px");
+    }
+  },
+  watch: {
+    dataset() {
+      this.drawLineChart();
+    }
   }
 };
 </script>
