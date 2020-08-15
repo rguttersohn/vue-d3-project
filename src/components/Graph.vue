@@ -5,7 +5,8 @@
 </template>
 
 <script>
-import * as d3 from "d3";
+import * as d3 from 'd3'
+
 export default {
   props: ["dataset", "initialGraph"],
   data() {
@@ -16,17 +17,19 @@ export default {
     };
   },
   computed: {
+    trimmedDataset() {
+      return this.dataset[0].filter(object => object.value !== undefined);
+    },
     xScale() {
       return d3
         .scaleBand()
         .range([0, this.width])
         .domain(
-          this.dataset[0].map(d => {
+          this.trimmedDataset.map(d => {
             return d.key;
           })
         );
     },
-
     yScale() {
       return d3
         .scaleLinear()
@@ -92,7 +95,7 @@ export default {
         .select(".graph path")
         .transition()
         .duration(300)
-        .attr("d", line(this.dataset[0]));
+        .attr("d", line(this.trimmedDataset));
     }
   },
   mounted() {
