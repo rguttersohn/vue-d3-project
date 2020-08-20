@@ -3,18 +3,25 @@
     <button @click="clickEvent" data-key="datasetOne">Graph One</button>
     <button @click="clickEvent" data-key="datasetTwo">Graph Two</button>
     <button @click="clickEvent" data-key="datasetThree">Graph Three</button>
-    <Graph :dataset="activeDataset" :initial-graph="datasetOne" />
-    <Table :dataset="activeDataset" :initial-graph="datasetOne" />
+    <div class="dashboard-wrapper">
+      <Graph :active-dataset="activeDataset" :initial-data="datasetOne" />
+      <Table :active-dataset="activeDataset" :initial-data="datasetOne" />
+      <Pie :active-dataset="activeDataset" :initial-data="datasetOne"/>
+    </div>
+
   </div>
 </template>
 
 <script>
 import Graph from "@/components/Graph.vue";
 import Table from "@/components/Table.vue";
+import Pie from '@/components/Pie.vue';
+
 export default {
   components: {
     Graph,
-    Table
+    Table,
+    Pie
   },
   data() {
     return {
@@ -40,34 +47,22 @@ export default {
         { key: "key 3", value: 54 },
         { key: "key 4", value: 90 }
       ],
-      activeDataset: [],
+      activeDataset: []
     };
   },
   methods: {
     clickEvent(event) {
       this.activeDataset.pop();
-      this.activeDataset.push(this[event.target.dataset.key])
+      this.activeDataset.push(this[event.target.dataset.key]);
     }
   }
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.dashboard-wrapper {
+  display:flex;
 }
 
 button.active {

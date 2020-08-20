@@ -1,7 +1,7 @@
 <template>
   <div class="table-wrapper">
-    <h2 v-if="this.dataset[0]">{{this.dataset[0][0].label}}</h2>
-    <div class="table-flex-container" v-for="data in dataset[0]" :key="data.key">
+    <h2 v-if="activeDataset[0]">{{activeDataset[0][0].label}}</h2>
+    <div class="table-flex-container" v-for="data in activeDataset[0]" :key="data.key">
       <p>{{data.key}}</p>
       <p>{{data.value}}</p>
     </div>
@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  props: ["dataset", "initial-graph"]
+  props: ["active-dataset", "initial-data"]
 };
 </script>
 

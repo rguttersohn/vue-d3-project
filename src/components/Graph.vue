@@ -8,7 +8,7 @@
 import * as d3 from 'd3'
 
 export default {
-  props: ["dataset", "initialGraph"],
+  props: ["active-dataset", "initial-data"],
   data() {
     return {
       width: 300,
@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     trimmedDataset() {
-      return this.dataset[0].filter(object => object.value !== undefined);
+      return this.activeDataset[0].filter(object => object.value !== undefined);
     },
     xScale() {
       return d3
@@ -99,12 +99,12 @@ export default {
     }
   },
   mounted() {
-    this.dataset.push(this.initialGraph);
+    this.activeDataset.push(this.initialData);
     this.chartFixed(this.width, this.height, this.margin);
     this.drawLineChart(this.width, this.height, this.margin);
   },
   watch: {
-    dataset() {
+    activeDataset() {
       this.drawLineChart(this.width, this.height, this.margin);
     }
   }
